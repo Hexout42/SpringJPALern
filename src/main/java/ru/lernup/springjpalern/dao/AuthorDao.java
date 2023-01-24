@@ -11,5 +11,6 @@ public interface AuthorDao {
     void save(Author author);
     void deleteById(Long  id);
     List<Book> getBooks(Long id);
+    Author getByName(String name);
 
 }

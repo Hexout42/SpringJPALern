@@ -29,4 +29,8 @@ public class Employee {
     @OneToMany(mappedBy = "idEmployee",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<DetailsOrder> detailsOrders;
+
+    @ManyToOne
+    @JoinColumn(name = "id_store")
+    private BookStore idStore;
 }

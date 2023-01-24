@@ -47,5 +47,10 @@ public class SpringDataAuthor implements AuthorDao {
        return authorRepository.findById(id).orElseThrow(EntityNotFoundException::new).getBooks();
     }
 
+    @Override
+    public Author getByName(String name) {
+        return authorRepository.findAuthorByAllNameAuthor(name);
+    }
+
 
 }

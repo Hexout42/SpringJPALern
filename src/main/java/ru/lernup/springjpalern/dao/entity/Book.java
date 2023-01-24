@@ -29,6 +29,10 @@ public class Book {
     private BookHouse bookHouse;
     @OneToOne(mappedBy = "idBook")
     private DetailsOrder detailsOrder;
+    @ManyToOne
+    @JoinColumn(name = "id_store")
+    private BookStore idStore;
+
 
     @Override
     public String toString() {

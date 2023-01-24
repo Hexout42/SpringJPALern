@@ -26,6 +26,9 @@ public class OrderConsumer {
     @OneToMany(mappedBy = "idOrder", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<DetailsOrder> detailsOrders;
+    @ManyToOne
+    @JoinColumn(name = "id_store")
+    private BookStore idStore;
 
     @Override
     public String toString() {

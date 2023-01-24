@@ -1,5 +1,6 @@
 package ru.lernup.springjpalern.dao.data;
 
+
 import org.springframework.stereotype.Service;
 import ru.lernup.springjpalern.dao.entity.*;
 
@@ -7,21 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SpringBookStore {
+public class BookStoreService {
     private final SpringDataAuthor author;
     private final SpringDataBook book;
     private final SpringDataEmployee employee;
     private final SpringDataOrder order;
     private final SpringDataConsumer consumer;
+    private final SpringDataBookStore bookStore;
 
-    public SpringBookStore(SpringDataAuthor author, SpringDataBook book,
-                           SpringDataEmployee employee, SpringDataOrder order,
-                           SpringDataConsumer consumer) {
+    public BookStoreService(SpringDataAuthor author, SpringDataBook book,
+                            SpringDataEmployee employee, SpringDataOrder order,
+                            SpringDataConsumer consumer,
+                             SpringDataBookStore bookStore) {
         this.author = author;
         this.book = book;
         this.employee = employee;
         this.order = order;
         this.consumer = consumer;
+        this.bookStore = bookStore;
+
     }
     public Author getAuthor(Long id){
         return author.getById(id);
@@ -34,11 +39,12 @@ public class SpringBookStore {
         consumer1.setOrderConsumer(new ArrayList<>());
         consumer.save(consumer1);
     }
-    public void insertOrderToConsumer(String name,int cost){
+    public void insertOrderToConsumer(String name,int cost,long idStore){
         OrderConsumer orderConsumer = new OrderConsumer();
-       Consumer consumer1 = consumer.getByName(name);
+        Consumer consumer1 = consumer.getByName(name);
         orderConsumer.setConsumer(consumer1);
         orderConsumer.setCost(cost);
+        orderConsumer.setIdStore(bookStore.getStoreById(idStore));
         consumer1.getOrderConsumer().add(orderConsumer);
         order.save(orderConsumer);
 
@@ -70,5 +76,20 @@ public class SpringBookStore {
         detailsOrder.setIdEmployee(employee.getById(idEmployee));
         orderConsumer.getDetailsOrders().add(detailsOrder);
         order.save(orderConsumer);
+    }
+    public void insertBook(String nameStore, String name, int age,int numOfPg,int price,String nameAuthor){
+        Book book1 = new Book();
+        book1.setNameBook(name);
+        book1.setAgeBook(age);
+        book1.setPriceBook(price);
+        book1.setNumberOfPages(numOfPg);
+        bookStore.getStoreByName(nameStore).getBookList().add(book1);
+        book1.setIdStore(bookStore.getStoreByName(nameStore));
+        author.getByName(nameAuthor).getBooks().add(book1);
+        book1.setIdAuthor(author.getByName(nameAuthor));
+        book.save(book1);
+    }
+    public List<Book> getAllBook(){
+        return bookStore.getAllBook();
     }
 }
